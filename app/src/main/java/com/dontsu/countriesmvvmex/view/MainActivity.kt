@@ -19,8 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //ManiActivity에 viewModel을 연결
         viewModel = ViewModelProvider(this).get(RecyclerViewModel::class.java)
-        viewModel.refresh()
+        viewModel.refresh() //우선 초기화, 초기화 함으로써 MainActivity의 생명주기가 다 끝날때까지 데이터가 남아있게 된다
 
         countriesList.apply {
             layoutManager = LinearLayoutManager(context)
@@ -32,16 +33,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.countries.observe(this, Observer { countries ->
-            countries?.let { countriesAdapter.updateCountries(it) }
+            countries?.let { countriesAdapter.updateCountries(it) } //adapter에 변화된 countries를 보내줌
         })
 
         viewModel.countryLoadError.observe(this, Observer { isError ->
-            isError?.let { list_error.visibility = if (it) View.VISIBLE else View.GONE }
+            isError?.let { list_error.visibility = if (it) View.VISIBLE else View.GONE } //error를 보여줄지 말지
         })
 
         viewModel.loading.observe(this, Observer { isLoading ->
             isLoading?.let {
-                loading_view.visibility = if (it) View.VISIBLE else View.GONE
+                loading_view.visibility = if (it) View.VISIBLE else View.GONE //로딩프로그래스바를 보여줄지 말지
                 if (it) {
                     list_error.visibility = View.GONE
                     countriesList.visibility = View.GONE
