@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.countries.observe(this, Observer { countries ->
-            countries?.let { countriesAdapter.updateCountries(it) } //adapter에 변화된 countries를 보내줌
+            countries?.let {
+                countriesList.visibility = View.VISIBLE
+                countriesAdapter.updateCountries(it) } //adapter에 변화된 countries를 보내줌
         })
 
         viewModel.countryLoadError.observe(this, Observer { isError ->
