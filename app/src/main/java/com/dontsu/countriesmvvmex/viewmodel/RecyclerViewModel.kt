@@ -2,16 +2,24 @@ package com.dontsu.countriesmvvmex.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dontsu.countriesmvvmex.di.DaggerApiComponent
 import com.dontsu.countriesmvvmex.model.CountriesService
 import com.dontsu.countriesmvvmex.model.Country
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class RecyclerViewModel: ViewModel() {
 
-    private var countriesService = CountriesService()
+    @Inject
+    lateinit var countriesService: CountriesService
+
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
+
     private val disposable = CompositeDisposable()
 
     //아래 3개의 필드가 Data class와 상호작용하여, 변경이 있을시에 UI에 교체되는 녀석들이다.

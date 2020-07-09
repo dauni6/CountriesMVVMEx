@@ -28,6 +28,11 @@ class MainActivity : AppCompatActivity() {
             adapter = countriesAdapter
         }
 
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            viewModel.refresh() //리프래쉬 시킬때 마다 다시 보여주기
+        }
+
         observeViewModel() //UI 업데이트를 담당할거임
     }
 
